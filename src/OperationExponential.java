@@ -1,28 +1,24 @@
+/**
+ * Created by Roberto on 21/01/2017.
+ */
+public class OperationExponential {
 
-public class OperationWithPriority {
     private final String input;
 
-    public OperationWithPriority(String input){
+    public OperationExponential(String input){
         this.input = input;
     }
 
-    public String result(){
-        String result = "";
-        boolean finish = false;
-        int positionOperator = 0;
-        while(!finish){
-            String character = this.input.substring(positionOperator,positionOperator+1);
-            if(Constans.OPERATOR_MULTIPLY.equals(character) || Constans.OPERATOR_DIVIDE.equals(character)){
-                int startPosition = searchStartPositionOperation(positionOperator, this.input);
-                int endPosition = searchEndPositionOperation(positionOperator, this.input);
-                OperationSimple operation = new OperationSimple(this.input.substring(startPosition,endPosition));
-                String resultOperation = operation.result();
-                result = this.input.substring(0,startPosition) + resultOperation + this.input.substring(endPosition);
-                finish = true;
-            }
-            positionOperator++;
-        }
-        return  result;
+    public String result() {
+        int position = this.input.indexOf(Constans.EXPONENTIAL);
+        int startPosition = searchStartPositionOperation(position, this.input);
+        int endPosition = searchEndPositionOperation(position, this.input);
+        String firstNumber = input.substring(startPosition,position);
+        String secondNumber = input.substring(position+1,endPosition);
+        double resultOperation = Math.pow(Double.parseDouble(firstNumber),Double.parseDouble(secondNumber));
+
+        String result = this.input.substring(0,startPosition) + resultOperation + this.input.substring(endPosition);
+        return result;
     }
 
     private int searchEndPositionOperation(int start, String input) {

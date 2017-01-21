@@ -1,24 +1,43 @@
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class OperationSimple {
-    private double firstNumber;
-    private double secondNumber;
+    private BigDecimal firstNumber;
+    private BigDecimal secondNumber;
     private String operator;
+    private DecimalFormat decimalFormat;
 
     public OperationSimple(String input) {
         StringTokenizer str = new StringTokenizer(input, Constans.DELIM);
-        if(isFirstNumerNegative(input)){
-            this.firstNumber = Double.parseDouble(Constans.OPERATOR_DEDUCT + str.nextToken());
-        }else{
-            this.firstNumber = Double.parseDouble(str.nextToken());
+        defineDecimalFormat();
+        try{
+            if(isFirstNumerNegative(input)){
+                this.firstNumber = (BigDecimal) decimalFormat.parse(Constans.OPERATOR_SUBTRACT + str.nextToken());
+            }else{
+                this.firstNumber = (BigDecimal) decimalFormat.parse(str.nextToken());
+            }
+            this.secondNumber = (BigDecimal) decimalFormat.parse(str.nextToken());
+            this.operator = extractOperator(input);
+        }catch (ParseException e){
+
         }
-        this.secondNumber = Double.parseDouble(str.nextToken());
-        this.operator = extractOperator(input);
+    }
+
+    private void defineDecimalFormat() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(',');
+        symbols.setDecimalSeparator('.');
+        String pattern = "#,##0.0#";
+        decimalFormat = new DecimalFormat(pattern, symbols);
+        decimalFormat.setParseBigDecimal(true);
     }
 
     private boolean isFirstNumerNegative(String input) {
-        return Constans.OPERATOR_DEDUCT.equals(input.substring(0, 1));
+        return Constans.OPERATOR_SUBTRACT.equals(input.substring(0, 1));
     }
 
     private String extractOperator(String input) {
@@ -28,7 +47,7 @@ public class OperationSimple {
                 Integer.parseInt(input.substring(cont-1,cont));
             }catch (NumberFormatException e){
                 String character = input.substring(cont-1,cont);
-                if((!Constans.OPERATOR_DEDUCT.equals(character) || cont-1 != 0) && !isPoint(character)){
+                if((!Constans.OPERATOR_SUBTRACT.equals(character) || cont-1 != 0) && !isPoint(character)){
                     operator = input.substring(cont-1,cont);
                 }
             }
@@ -41,32 +60,17 @@ public class OperationSimple {
     }
 
     public String result() {
-        HashMap<String,Double> mapOperations = inicialiceMap();
-        return Double.toString(mapOperations.get(this.operator));
+        HashMap<String,IOperation> mapOperations = inicialiceMap();
+        IOperation operation = mapOperations.get(this.operator);
+        return operation.operation(this.firstNumber,this.secondNumber).toString();
     }
 
-    private HashMap<String, Double> inicialiceMap() {
-        HashMap<String,Double> mapOperations = new HashMap<String, Double>();
-        mapOperations.put(Constans.OPERATOR_ADD, add());
-        mapOperations.put(Constans.OPERATOR_DEDUCT, deduct());
-        mapOperations.put(Constans.OPERATOR_MULTIPLY, multiply());
-        mapOperations.put(Constans.OPERATOR_DIVIDE, divide());
+    private HashMap<String, IOperation> inicialiceMap() {
+        HashMap<String,IOperation> mapOperations = new HashMap<String, IOperation>();
+        mapOperations.put(Constans.OPERATOR_ADD, new Add());
+        mapOperations.put(Constans.OPERATOR_SUBTRACT, new Subtract());
+        mapOperations.put(Constans.OPERATOR_MULTIPLY, new Multiply());
+        mapOperations.put(Constans.OPERATOR_DIVIDE, new Divide());
         return mapOperations;
-    }
-
-    private Double divide() {
-        return this.firstNumber/this.secondNumber;
-    }
-
-    private Double multiply() {
-        return this.firstNumber*this.secondNumber;
-    }
-
-    private Double deduct() {
-        return this.firstNumber-this.secondNumber;
-    }
-
-    private Double add() {
-        return this.firstNumber+this.secondNumber;
     }
 }

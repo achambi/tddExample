@@ -111,7 +111,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void resultParenthesisIntoParenthesis(){
+    public void resultParenthesisIntoParenthesisTest(){
         String operation = "(4*(2+4))*3";
 
         String result = calculator.executeOperation(operation);
@@ -120,11 +120,29 @@ public class CalculatorTest {
     }
 
     @Test
-    public void resultOperationWithDecimal(){
+    public void resultOperationWithDecimalTest(){
         String operation = "(4.2*(2.3+4.4))*3.7";
 
         String result = calculator.executeOperation(operation);
 
-        assertEquals("Fallo operacion con multiples parentesis",result,"104.118");
+        assertEquals("Fallo operacion con multiples parentesis con decimales",result,"104.118");
+    }
+
+    @Test
+    public void resultExponencialTest(){
+        String operation = "2^2";
+
+        String result = calculator.executeOperation(operation);
+
+        assertEquals("Fallo operacion raiz cuadrada",result,"4");
+    }
+
+    @Test
+    public void resultExponencialWithOperationsTest(){
+        String operation = "2+(2^2-1*3)";
+
+        String result = calculator.executeOperation(operation);
+
+        assertEquals("Fallo operacion raiz cuadrada",result,"3");
     }
 }

@@ -11,28 +11,40 @@ public class Calculator {
     }
 
     private String selectOperation(String input){
-        String entrada = input;
-        while(anyOperation (entrada)){
-            if(existParenthesis(entrada)){
-                OperationParenthesis operation = new OperationParenthesis(entrada);
-                entrada = operation.result();
-            }else if(existMultiply(entrada) || existDivide(entrada)){
-                OperationWithPriority operation = new OperationWithPriority(entrada);
-                entrada = operation.result();
+        while(anyOperation (input)){
+            if(existParenthesis(input)){
+                OperationParenthesis operation = new OperationParenthesis(input);
+                input = operation.result();
+            }if(existExponential(input)){
+                OperationExponential operation = new OperationExponential(input);
+                input = operation.result();
+            }else if(existMultiply(input) || existDivide(input)){
+                OperationWithPriority operation = new OperationWithPriority(input);
+                input = operation.result();
             }else{
-                Operation operation = new Operation(entrada);
-                entrada = operation.result();
+                Operation operation = new Operation(input);
+                input = operation.result();
             }
         }
-        return deleteDecimalZero(entrada);
+        return deleteDecimalZero(input);
+    }
+
+    private boolean existExponential(String input) {
+        int result = input.indexOf(Constans.EXPONENTIAL);
+        if(result != CHARACTER_NOT_OCCUR){
+            return  true;
+        }
+        return false;
     }
 
     private String deleteDecimalZero(String entrada) {
-        StringTokenizer str = new StringTokenizer(entrada, ".");
-        String integerPart = str.nextToken();
-        String decimalPart = str.nextToken();
-        if("0".equals(decimalPart)){
-            return integerPart;
+        if(entrada.indexOf(Constans.POINT) >= 0){
+            StringTokenizer str = new StringTokenizer(entrada, Constans.POINT);
+            String integerPart = str.nextToken();
+            String decimalPart = str.nextToken();
+            if("0".equals(decimalPart)){
+                return integerPart;
+            }
         }
         return entrada;
     }
@@ -46,7 +58,7 @@ public class Calculator {
     }
 
     private boolean anyOperation (String input){
-        if(existAdd(input) || existDeduct(input) || existMultiply(input) || existDivide(input)){
+        if(existAdd(input) || existSubtract(input) || existMultiply(input) || existDivide(input) || existExponential(input)){
             return true;
         }
         return false;
@@ -68,8 +80,8 @@ public class Calculator {
         return false;
     }
 
-    private boolean existDeduct(String input) {
-        int result = input.lastIndexOf(Constans.OPERATOR_DEDUCT);
+    private boolean existSubtract(String input) {
+        int result = input.lastIndexOf(Constans.OPERATOR_SUBTRACT);
         if(result != CHARACTER_NOT_OCCUR && result != CHARACTER_NEGATIVE_NUMBER){
             return  true;
         }

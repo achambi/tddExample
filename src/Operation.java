@@ -9,12 +9,12 @@ public class Operation {
     public String result(){
         boolean fistOperation = true;
         boolean finish = false;
-        String candenaOperation ="";
+        String stringOperation ="";
         String remainderOperation = "";
 
         for(int cont = 1;cont<=this.input.length() && !finish;cont++){
             try{
-                candenaOperation += Integer.parseInt(this.input.substring(cont-1,cont));
+                stringOperation += Integer.parseInt(this.input.substring(cont-1,cont));
             }catch (NumberFormatException e){
                 String character = this.input.substring(cont-1,cont);
                 if(fistOperation){
@@ -22,18 +22,18 @@ public class Operation {
                     if(isFirstNumberNegative(cont, character) || isPoint(character)){
                         fistOperation = true;
                     }
-                    candenaOperation += this.input.substring(cont-1,cont);
+                    stringOperation += this.input.substring(cont-1,cont);
                 }else{
                     if(!isPoint(character)) {
                         finish = true;
                         remainderOperation = this.input.substring(cont - 1);
                     }else{
-                        candenaOperation += this.input.substring(cont-1,cont);
+                        stringOperation += this.input.substring(cont-1,cont);
                     }
                 }
             }
         }
-        OperationSimple operation = new OperationSimple(candenaOperation);
+        OperationSimple operation = new OperationSimple(stringOperation);
         return operation.result() + remainderOperation;
     }
 
@@ -42,6 +42,6 @@ public class Operation {
     }
 
     private boolean isFirstNumberNegative(int cont, String character) {
-        return Constans.OPERATOR_DEDUCT.equals(character) && cont-1 == 0;
+        return Constans.OPERATOR_SUBTRACT.equals(character) && cont-1 == 0;
     }
 }
