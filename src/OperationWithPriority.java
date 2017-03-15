@@ -12,7 +12,7 @@ public class OperationWithPriority {
         int positionOperator = 0;
         while(!finish){
             String character = this.input.substring(positionOperator,positionOperator+1);
-            if(Constans.OPERATOR_MULTIPLY.equals(character) || Constans.OPERATOR_DIVIDE.equals(character)){
+            if(Constants.OPERATOR_MULTIPLY.equals(character) || Constants.OPERATOR_DIVIDE.equals(character)){
                 int startPosition = searchStartPositionOperation(positionOperator, this.input);
                 int endPosition = searchEndPositionOperation(positionOperator, this.input);
                 OperationSimple operation = new OperationSimple(this.input.substring(startPosition,endPosition));

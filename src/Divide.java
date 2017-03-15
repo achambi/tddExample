@@ -1,11 +1,13 @@
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
- * Created by Roberto on 21/01/2017.
+ * class for divide Operator.
  */
 public class Divide implements IOperation {
+
     @Override
-    public BigDecimal operation(BigDecimal firstNumber, BigDecimal secondNumber) {
-        return firstNumber.divide(secondNumber);
+    public BigDecimal operation(BigDecimal firstNumber, BigDecimal secondNumber) throws ArithmeticException {
+        return firstNumber.divide(secondNumber, RoundingMode.UNNECESSARY);
     }
 }

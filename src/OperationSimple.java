@@ -12,11 +12,11 @@ public class OperationSimple {
     private DecimalFormat decimalFormat;
 
     public OperationSimple(String input) {
-        StringTokenizer str = new StringTokenizer(input, Constans.DELIM);
+        StringTokenizer str = new StringTokenizer(input, Constants.DELIM);
         defineDecimalFormat();
         try{
             if(isFirstNumerNegative(input)){
-                this.firstNumber = (BigDecimal) decimalFormat.parse(Constans.OPERATOR_SUBTRACT + str.nextToken());
+                this.firstNumber = (BigDecimal) decimalFormat.parse(Constants.OPERATOR_SUBTRACT + str.nextToken());
             }else{
                 this.firstNumber = (BigDecimal) decimalFormat.parse(str.nextToken());
             }
@@ -37,7 +37,7 @@ public class OperationSimple {
     }
 
     private boolean isFirstNumerNegative(String input) {
-        return Constans.OPERATOR_SUBTRACT.equals(input.substring(0, 1));
+        return Constants.OPERATOR_SUBTRACT.equals(input.substring(0, 1));
     }
 
     private String extractOperator(String input) {
@@ -47,7 +47,7 @@ public class OperationSimple {
                 Integer.parseInt(input.substring(cont-1,cont));
             }catch (NumberFormatException e){
                 String character = input.substring(cont-1,cont);
-                if((!Constans.OPERATOR_SUBTRACT.equals(character) || cont-1 != 0) && !isPoint(character)){
+                if((!Constants.OPERATOR_SUBTRACT.equals(character) || cont-1 != 0) && !isPoint(character)){
                     operator = input.substring(cont-1,cont);
                 }
             }
@@ -67,10 +67,10 @@ public class OperationSimple {
 
     private HashMap<String, IOperation> inicialiceMap() {
         HashMap<String,IOperation> mapOperations = new HashMap<String, IOperation>();
-        mapOperations.put(Constans.OPERATOR_ADD, new Add());
-        mapOperations.put(Constans.OPERATOR_SUBTRACT, new Subtract());
-        mapOperations.put(Constans.OPERATOR_MULTIPLY, new Multiply());
-        mapOperations.put(Constans.OPERATOR_DIVIDE, new Divide());
+        mapOperations.put(Constants.OPERATOR_ADD, new Add());
+        mapOperations.put(Constants.OPERATOR_SUBTRACT, new Subtract());
+        mapOperations.put(Constants.OPERATOR_MULTIPLY, new Multiply());
+        mapOperations.put(Constants.OPERATOR_DIVIDE, new Divide());
         return mapOperations;
     }
 }

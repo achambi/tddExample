@@ -10,7 +10,7 @@ public class OperationExponential {
     }
 
     public String result() {
-        int position = this.input.indexOf(Constans.EXPONENTIAL);
+        int position = this.input.indexOf(Constants.EXPONENTIAL);
         int startPosition = searchStartPositionOperation(position, this.input);
         int endPosition = searchEndPositionOperation(position, this.input);
         String firstNumber = input.substring(startPosition,position);

@@ -42,6 +42,6 @@ public class Operation {
     }
 
     private boolean isFirstNumberNegative(int cont, String character) {
-        return Constans.OPERATOR_SUBTRACT.equals(character) && cont-1 == 0;
+        return Constants.OPERATOR_SUBTRACT.equals(character) && cont-1 == 0;
     }
 }
