@@ -59,7 +59,7 @@ public class OperationSimple {
         return ".".equals(character);
     }
 
-    public String result() {
+    String result() {
         HashMap<String,IOperation> mapOperations = inicialiceMap();
         IOperation operation = mapOperations.get(this.operator);
         return operation.operation(this.firstNumber,this.secondNumber).toString();

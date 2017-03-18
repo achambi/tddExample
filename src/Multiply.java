@@ -1,7 +1,7 @@
 import java.math.BigDecimal;
 
 /**
- *
+ * Multiply operation.
  */
 public class Multiply implements IOperation {
     @Override

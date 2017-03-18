@@ -1,12 +1,12 @@
 
-public class Operation {
+ class Operation {
     private final String input;
 
-    public Operation(String input){
+    Operation(String input){
         this.input = input;
     }
 
-    public String result(){
+    String result(){
         boolean fistOperation = true;
         boolean finish = false;
         String stringOperation ="";
@@ -18,10 +18,7 @@ public class Operation {
             }catch (NumberFormatException e){
                 String character = this.input.substring(cont-1,cont);
                 if(fistOperation){
-                    fistOperation = false;
-                    if(isFirstNumberNegative(cont, character) || isPoint(character)){
-                        fistOperation = true;
-                    }
+                    fistOperation = isFirstNumberNegative(cont, character) || isPoint(character);
                     stringOperation += this.input.substring(cont-1,cont);
                 }else{
                     if(!isPoint(character)) {
