@@ -1,7 +1,7 @@
 
  class OperationParenthesis {
-    private static final int CONTADOR_START_PARENTHESIS = 1;
-    private static final int CONTADOR_END_PARENTHESIS = 0;
+    private static final int COUNTER_START_PARENTHESIS = 1;
+    private static final int COUNTER_END_PARENTHESIS = 0;
     private final String input;
 
     OperationParenthesis(String input) {
@@ -20,8 +20,8 @@
     private int searchEndParenthesis(String input) {
         int cont = input.indexOf(Constants.PARENTHESIS_START);
         boolean finish = false;
-        int parenthesisStart = CONTADOR_START_PARENTHESIS;
-        int parenthesisEnd = CONTADOR_END_PARENTHESIS;
+        int parenthesisStart = COUNTER_START_PARENTHESIS;
+        int parenthesisEnd = COUNTER_END_PARENTHESIS;
         while (!finish) {
             cont++;
             String character = input.substring(cont, cont + 1);

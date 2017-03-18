@@ -5,24 +5,24 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class OperationSimple {
+class OperationSimple {
     private BigDecimal firstNumber;
     private BigDecimal secondNumber;
     private String operator;
     private DecimalFormat decimalFormat;
 
-    public OperationSimple(String input) {
+    OperationSimple(String input) {
         StringTokenizer str = new StringTokenizer(input, Constants.DELIM);
         defineDecimalFormat();
-        try{
-            if(isFirstNumerNegative(input)){
+        try {
+            if (isFirstNumerNegative(input)) {
                 this.firstNumber = (BigDecimal) decimalFormat.parse(Constants.OPERATOR_SUBTRACT + str.nextToken());
-            }else{
+            } else {
                 this.firstNumber = (BigDecimal) decimalFormat.parse(str.nextToken());
             }
             this.secondNumber = (BigDecimal) decimalFormat.parse(str.nextToken());
             this.operator = extractOperator(input);
-        }catch (ParseException e){
+        } catch (ParseException ignored) {
 
         }
     }
@@ -40,15 +40,16 @@ public class OperationSimple {
         return Constants.OPERATOR_SUBTRACT.equals(input.substring(0, 1));
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private String extractOperator(String input) {
-        String operator ="";
-        for(int cont = 1;cont<=input.length();cont++){
-            try{
-                Integer.parseInt(input.substring(cont-1,cont));
-            }catch (NumberFormatException e){
-                String character = input.substring(cont-1,cont);
-                if((!Constants.OPERATOR_SUBTRACT.equals(character) || cont-1 != 0) && !isPoint(character)){
-                    operator = input.substring(cont-1,cont);
+        String operator = "";
+        for (int cont = 1; cont <= input.length(); cont++) {
+            try {
+                Integer.parseInt(input.substring(cont - 1, cont));
+            } catch (NumberFormatException e) {
+                String character = input.substring(cont - 1, cont);
+                if ((!Constants.OPERATOR_SUBTRACT.equals(character) || cont - 1 != 0) && !isPoint(character)) {
+                    operator = input.substring(cont - 1, cont);
                 }
             }
         }
@@ -60,13 +61,13 @@ public class OperationSimple {
     }
 
     String result() {
-        HashMap<String,IOperation> mapOperations = inicialiceMap();
+        HashMap<String, IOperation> mapOperations = initMap();
         IOperation operation = mapOperations.get(this.operator);
-        return operation.operation(this.firstNumber,this.secondNumber).toString();
+        return operation.operation(this.firstNumber, this.secondNumber).toString();
     }
 
-    private HashMap<String, IOperation> inicialiceMap() {
-        HashMap<String,IOperation> mapOperations = new HashMap<String, IOperation>();
+    private HashMap<String, IOperation> initMap() {
+        HashMap<String, IOperation> mapOperations = new HashMap<String, IOperation>();
         mapOperations.put(Constants.OPERATOR_ADD, new Add());
         mapOperations.put(Constants.OPERATOR_SUBTRACT, new Subtract());
         mapOperations.put(Constants.OPERATOR_MULTIPLY, new Multiply());
